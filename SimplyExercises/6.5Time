@@ -1,6 +1,6 @@
 ; These two procedures are based off the exercise 6.5 from the Simply Scheme textbook
-; The first procedure converts european-time to american time.
-; The second procedure converts american-time to european time.
+; The first procedure converts european-time to american time. Must be entered like this: '(8 am)
+; The second procedure converts american-time to european time. Time must be entered as a one or two digit number only.
 
 (define (european-time t)
      (cond((and (equal? (first t) 12)(equal? (last t) 'am)) 24)
