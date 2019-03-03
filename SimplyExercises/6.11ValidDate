@@ -9,17 +9,17 @@
          (and (31dmo? m)(>= d 1)(<= d 31)(>= y 1582))))     ; validates all 31 day months
 
 (define (30dmo? m)     ; This helper procedure defines a set for all months with 30 days
-     (member? m ‘(4 6 9 11)))
+     (member? m '(4 6 9 11)))
 
 (define (31dmo? m)     ; This helper procedure defines a set for all months with 31 days
-     (member? m ‘(1 3 5 7 8 10 12)))
+     (member? m '(1 3 5 7 8 10 12)))
 
 (define (validleapyear? y)     ; This helper procedure is called only in the event of a Feb. 29th date and validates of the year is a leap year
      (if (divisible? y 100)
          (divisible? y 400)
          (divisible? y 4)))
 
-(define (divisible? b s)     ; This helper procedure confirms that the results in validleapyear are divisible with no remainder
-     (= remainder b s) 0))
+(define (divisible? b s)     ; This helper procedure confirms that the results in validleapyear are divisible with no remainder. It is directly copied from the text.
+     (= (remainder b s) 0))
      
 ; As a side note, 1582 is used for the validation year, as that is the year that the gregorian calendar was accepted
