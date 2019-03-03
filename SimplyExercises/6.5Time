@@ -1,0 +1,14 @@
+; These two procedures are based off the exercise 6.5 from the Simply Scheme textbook
+; The first procedure converts european-time to american time.
+; The second procedure converts american-time to european time.
+
+(define (european-time t)
+     (cond((and (equal? (first t) 12)(equal? (last t) 'am)) 24)
+          ((and (equal? (first t) 12)(equal? (last t) 'pm)) 12)
+          ((equal? (last t) 'am)(first t))
+          (else (+ (first t) 12))))
+
+(define (american-time t)
+     (cond ((= t 12)(se t 'pm))
+           ((> t 12)(se (- t 12) 'pm))
+           (else (se t 'am))))
