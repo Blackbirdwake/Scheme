@@ -1,0 +1,25 @@
+; This procedure is based off the exercise 6.11 from the Simply Scheme textbook.
+; It takes in mm d yyyy format and returns #t if the date is valid, or #f if the date is not
+; It also takes into account leap years.
+
+(define (valid-date? m d y)
+     (or (and (= m 2)(= d 29)(validleapyear? y))            ; Beginning with the most restrictive, Feb. 29th and if it is a valid leap year
+         (and (= m 2)(= d 28)(>= y 1582))                   ; Next restrictive is the only month with 28 days, i.e. Feb.
+         (and (30dmo? m)(>= d 1)(<= d 30)(>= y 1582))       ; Validates all 30 day months
+         (and (31dmo? m)(>= d 1)(<= d 31)(>= y 1582))))     ; validates all 31 day months
+
+(define (30dmo? m)     ; This helper procedure defines a set for all months with 30 days
+     (member? m ‘(4 6 9 11)))
+
+(define (31dmo? m)     ; This helper procedure defines a set for all months with 31 days
+     (member? m ‘(1 3 5 7 8 10 12)))
+
+(define (validleapyear? y)     ; This helper procedure is called only in the event of a Feb. 29th date and validates of the year is a leap year
+     (if (divisible? y 100)
+         (divisible? y 400)
+         (divisible? y 4)))
+
+(define (divisible? b s)     ; This helper procedure confirms that the results in validleapyear are divisible with no remainder
+     (= remainder b s) 0))
+     
+; As a side note, 1582 is used for the validation year, as that is the year that the gregorian calendar was accepted
