@@ -1,0 +1,8 @@
+; This procedure is based on the exercise 4.8 in the Simply Scheme textbook
+; It takes a number and converts it into scientific notation
+
+(define (sci-coefficient e)     ;  finds the coefficient and formats result sentence
+     (se (/ e (expt 10 (sci-exponent e))) 'X (word '10^ (sci-exponent e))))
+     
+(define (sci-exponent x)     ;  finds what power 10 is raised to
+     (floor (/ (log x)(log 10))))
