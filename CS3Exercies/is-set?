@@ -1,0 +1,36 @@
+;  This program is based off of the exercise from the 2011 Summer session of CS3L at Berkeley. It is from Lab 3.
+;  It creates more basic version of the game Sets.
+;  User inputs a set of "cards"
+;  each card can be a d, s, or o and can have 1, 2, or 3 characters. i.e. '(o dd sss)
+;  a set can be achived by having three of the same character (i.e. d ddd dd), three of the same number (i.e. oo dd ss), or both (i.e. oo oo oo)
+
+(Define (all-shapes-same? a b c)
+     (and (equal? a b)(equal? b c)))     ;  If a=b and b=c then a=c
+
+(define (all-numbers-same? a b c)
+     (and (= (count a)(count b))(= (count b)(count c))))
+
+(define (all-shapes-different? a b c)
+     (and (not (equal? a b))
+          (not (equal? b c))
+          (not (equal? a c))))
+
+(define (all-numbers-different? a b c)
+     (and (not (= (count a)(count b)))
+          (not (= (count b)(count c)))
+          (not (= (count a)(count c)))))
+
+(define (card1 a)
+     (first a))
+
+(define (card2 b)
+     (first (bf b)))
+
+(define (card3 c)
+     (last c))
+
+(define (is-set? hand)
+     (and (or (all-numbers-same? (card1 hand)(card2 hand)(card3 hand))
+              (all-numbers-different? (card1 hand)(card2 hand)(card3 hand)))
+          (or (all-shapes-same? (card1 hand)(card2 hand)(card3 hand))
+              (all-shapes-different? (card1 hand)(card2 hand)(card3 hand)))))
