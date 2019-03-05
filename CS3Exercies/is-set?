@@ -1,36 +1,61 @@
-;  This program is based off of the exercise from the 2011 Summer session of CS3L at Berkeley. It is from Lab 3.
-;  It creates more basic version of the game Sets.
-;  User inputs a set of "cards"
-;  each card can be a d, s, or o and can have 1, 2, or 3 characters. i.e. '(o dd sss)
-;  a set can be achived by having three of the same character (i.e. d ddd dd), three of the same number (i.e. oo dd ss), or both (i.e. oo oo oo)
+#| This program is based off of the exercise from the 2011 Summer session of CS3L at Berkeley. It is from Homework 1.
+   It creates a text based version of the game Sets.
+   User inputs a set of "cards"
+   each card must have a color (R, G, or P), a shading (E, F or S), a Shape (D, O, or W), and be represented from 1 to 3 times
+   i.e. one card could be (REO REO REO), (REO REO), or (REO). 
+   no one card may have multiple colors, shadings, or shapes.
+   each hand consists of three cards.
+   a set can be achieved by having all three colors, shadings, shapes, or numbers be all the same, or all different.
+   i.e. '(PFD PFD) '(PED PED) '(PSD PSD) is a set while '(GSW) '(GSO) '(RFD RFD RFG) is not a set.
+   users must input in the following format: (is-set? '(PFD PFD) '(PED PED) '(PSD PSD)) so that each card is its own string
+   users must input cards with color first, then shading, then shape. |#
 
-(Define (all-shapes-same? a b c)
-     (and (equal? a b)(equal? b c)))     ;  If a=b and b=c then a=c
+(define (all-same? a b c) ; if a=b and b=c then a=c
+     (and (equal? a b)
+          (equal? b c)))
 
-(define (all-numbers-same? a b c)
-     (and (= (count a)(count b))(= (count b)(count c))))
-
-(define (all-shapes-different? a b c)
+(define (all-different? a b c)
      (and (not (equal? a b))
           (not (equal? b c))
           (not (equal? a c))))
 
-(define (all-numbers-different? a b c)
-     (and (not (= (count a)(count b)))
-          (not (= (count b)(count c)))
-          (not (= (count a)(count c)))))
+(define (card-color x)
+     (first (first x)))
 
-(define (card1 a)
-     (first a))
+(define (card-shading x)
+     (first (bf (first x))))
 
-(define (card2 b)
-     (first (bf b)))
+(define (card-shape x)
+     (last (first x)))
 
-(define (card3 c)
-     (last c))
+(define (card-count x)
+     (count x))
 
-(define (is-set? hand)
-     (and (or (all-numbers-same? (card1 hand)(card2 hand)(card3 hand))
-              (all-numbers-different? (card1 hand)(card2 hand)(card3 hand)))
-          (or (all-shapes-same? (card1 hand)(card2 hand)(card3 hand))
-              (all-shapes-different? (card1 hand)(card2 hand)(card3 hand)))))
+(define (is-set? card1 card2 card3)
+     (and (or (all-same? (card-color card1)(card-color card2)(card-color card3))
+              (all-different? (card-color card1)(card-color card2)(card-color card3)))
+          (or (all-same? (card-shading card1)(card-shading card2)(card-shading card3))
+              (all-different? (card-shading card1)(card-shading card2)(card-shading card3)))
+          (or (all-same? (card-shape card1)(card-shape card2)(card-shape card3))
+              (all-different?  (card-shape card1)(card-shape card2)(card-shape card3)))
+          (or (all-same? (card-count card1)(card-count card2)(card-count card3))
+              (all-different? (card-count card1)(card-count card2)(card-count card3)))))
+              
+              
+              
+
+#| After reviewing the solutions, the only thing I should have maybe considered doing, was to build a helper procedure that read like this one:
+
+(define (set-ok? a b c)
+     (or (all-same? a b c)
+         (all-different? a b c)))
+
+then had my is-set? read like this:
+
+(define (is-set? card1 card2 card3)
+     (and (set-ok? (card-color card1)(card-color card2)(card-color card3))
+          (set-ok? (card-shading card1)(card-shading card2)(card-shading card3))
+          (set-ok? (card-shape card1)(card-shape card2)(card-shape card3))
+          (set-ok? (card-count card1)(card-count card2)(card-count card3))))
+
+It's not that mine was wrong, per say, this is just a little shorter and less repetitive in the final step. |#
